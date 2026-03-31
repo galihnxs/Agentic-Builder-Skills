@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CodeExecutionTask",
+  "type": "object",
+  "required": ["task_id", "instruction", "input_data"],
+  "properties": {
+    "task_id": { "type": "string", "description": "Unique task ID. Format: code-[uuid4]" },
+    "instruction": { "type": "string", "description": "What to compute or analyse. Be specific about the expected output format." },
+    "input_data": {
+      "type": ["object", "array", "string", "null"],
+      "description": "Data to analyse. Will be available as `input_data` variable in the Python sandbox."
+    },
+    "output_format": {
+      "type": "string",
+      "enum": ["json", "number", "string", "chart_path"],
+      "description": "Expected output format. 'chart_path' = code generates a PNG and returns the file path."
+    },
+    "max_iterations": {
+      "type": "integer",
+      "default": 2,
+      "description": "Max self-healing iterations if code fails. Recommended: 2."
+    }
+  }
+}
