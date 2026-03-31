@@ -2,7 +2,7 @@
   "name": "agentic-builder-skills-marketplace",
   "owner": {
     "name": "galihnxs",
-    "email": "[galih.nxs@gmail.com]"
+    "email": "galih.nxs@gmail.com"
   },
   "metadata": {
     "description": "A curated collection of Agentic AI patterns and modular skills for production-grade multi-agent systems.",
@@ -15,7 +15,7 @@
       "category": "agentic-engineering",
       "source": {
         "source": "url",
-        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git"
+        "url": "galihnxs/Agentic-Builder-Skills"
       },
       "homepage": "https://github.com/galihnxs/Agentic-Builder-Skills"
     },
@@ -25,7 +25,7 @@
       "category": "agentic-engineering",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "url": "galihnxs/Agentic-Builder-Skills",
         "path": "skills/architect"
       }
     },
@@ -35,7 +35,7 @@
       "category": "agentic-engineering",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "url": "galihnxs/Agentic-Builder-Skills",
         "path": "skills/compliance"
       }
     },
@@ -45,7 +45,7 @@
       "category": "agentic-engineering",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "url": "galihnxs/Agentic-Builder-Skills",
         "path": "skills/creator"
       }
     },
@@ -55,7 +55,7 @@
       "category": "agentic-engineering",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "url": "galihnxs/Agentic-Builder-Skills",
         "path": "skills/data-analyst"
       }
     },
@@ -65,7 +65,7 @@
       "category": "agentic-engineering",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "url": "galihnxs/Agentic-Builder-Skills",
         "path": "skills/evaluator"
       }
     },
@@ -75,7 +75,7 @@
       "category": "agentic-engineering",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "url": "galihnxs/Agentic-Builder-Skills",
         "path": "skills/orchestrator"
       }
     },
@@ -85,7 +85,7 @@
       "category": "agentic-engineering",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "url": "galihnxs/Agentic-Builder-Skills",
         "path": "skills/product-manager"
       }
     },
@@ -95,7 +95,7 @@
       "category": "agentic-engineering",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "url": "galihnxs/Agentic-Builder-Skills",
         "path": "skills/protector"
       }
     },
@@ -105,7 +105,7 @@
       "category": "agentic-engineering",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "url": "galihnxs/Agentic-Builder-Skills",
         "path": "skills/researcher"
       }
     }
