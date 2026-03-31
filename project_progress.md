@@ -22,6 +22,7 @@
 **Phase 2: Individual Skill Pluginization (Optional/Later)**
 - [x] Create individual `plugin.json` for each role (Architect, Evaluator, etc).
 - [x] Update `marketplace.json` to list multiple plugins.
+- [x] Fix sync issue by correcting `git-subdir` source type.
 
 ## ⚠️ Technical Debt
 * [ ] Currently, these are Markdown files (static content). Claude plugins usually expect interactive tool definitions. We need to decide how to "map" these prompts into Claude's environment (e.g. as custom instructions).

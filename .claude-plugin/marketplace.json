@@ -24,7 +24,7 @@
       "description": "Infrastructure, plumbing, and technical orchestration patterns.",
       "category": "agentic-engineering",
       "source": {
-        "source": "url",
+        "source": "git-subdir",
         "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
         "path": "skills/architect"
       }
@@ -34,7 +34,7 @@
       "description": "Legal, safety, and governance guardrails.",
       "category": "agentic-engineering",
       "source": {
-        "source": "url",
+        "source": "git-subdir",
         "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
         "path": "skills/compliance"
       }
@@ -44,7 +44,7 @@
       "description": "Synthesis, writing, and structured output patterns.",
       "category": "agentic-engineering",
       "source": {
-        "source": "url",
+        "source": "git-subdir",
         "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
         "path": "skills/creator"
       }
@@ -54,7 +54,7 @@
       "description": "Code execution, math, and sandboxed logic.",
       "category": "agentic-engineering",
       "source": {
-        "source": "url",
+        "source": "git-subdir",
         "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
         "path": "skills/data-analyst"
       }
@@ -64,7 +64,7 @@
       "description": "Quality control, reflection, and output validation.",
       "category": "agentic-engineering",
       "source": {
-        "source": "url",
+        "source": "git-subdir",
         "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
         "path": "skills/evaluator"
       }
@@ -74,7 +74,7 @@
       "description": "Planning, routing, and multi-agent coordination.",
       "category": "agentic-engineering",
       "source": {
-        "source": "url",
+        "source": "git-subdir",
         "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
         "path": "skills/orchestrator"
       }
@@ -84,7 +84,7 @@
       "description": "Strategy, scoping, and evaluation design.",
       "category": "agentic-engineering",
       "source": {
-        "source": "url",
+        "source": "git-subdir",
         "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
         "path": "skills/product-manager"
       }
@@ -94,7 +94,7 @@
       "description": "Security, sandboxing, and injection defense.",
       "category": "agentic-engineering",
       "source": {
-        "source": "url",
+        "source": "git-subdir",
         "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
         "path": "skills/protector"
       }
@@ -104,7 +104,7 @@
       "description": "Data gathering via search, RAG, and APIs.",
       "category": "agentic-engineering",
       "source": {
-        "source": "url",
+        "source": "git-subdir",
         "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
         "path": "skills/researcher"
       }
