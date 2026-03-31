@@ -1,0 +1,19 @@
+{
+  "name": "agentic-skills-library",
+  "version": "1.0.0",
+  "description": "The complete library of agentic roles and patterns (Architect, PM, Evaluator, etc).",
+  "author": "galihnxs",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git"
+  },
+  "keywords": [
+    "agentic",
+    "ai",
+    "patterns",
+    "skills",
+    "multi-agent",
+    "claude"
+  ]
+}

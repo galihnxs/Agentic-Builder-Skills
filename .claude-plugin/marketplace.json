@@ -1,0 +1,113 @@
+{
+  "name": "agentic-builder-skills-marketplace",
+  "owner": {
+    "name": "galihnxs",
+    "email": "[galih.nxs@gmail.com]"
+  },
+  "metadata": {
+    "description": "A curated collection of Agentic AI patterns and modular skills for production-grade multi-agent systems.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "agentic-skills-library",
+      "description": "The complete library of agentic roles and patterns (Architect, PM, Evaluator, etc).",
+      "category": "agentic-engineering",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git"
+      },
+      "homepage": "https://github.com/galihnxs/Agentic-Builder-Skills"
+    },
+    {
+      "name": "agentic-architect",
+      "description": "Infrastructure, plumbing, and technical orchestration patterns.",
+      "category": "agentic-engineering",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "path": "skills/architect"
+      }
+    },
+    {
+      "name": "agentic-compliance",
+      "description": "Legal, safety, and governance guardrails.",
+      "category": "agentic-engineering",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "path": "skills/compliance"
+      }
+    },
+    {
+      "name": "agentic-creator",
+      "description": "Synthesis, writing, and structured output patterns.",
+      "category": "agentic-engineering",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "path": "skills/creator"
+      }
+    },
+    {
+      "name": "agentic-data-analyst",
+      "description": "Code execution, math, and sandboxed logic.",
+      "category": "agentic-engineering",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "path": "skills/data-analyst"
+      }
+    },
+    {
+      "name": "agentic-evaluator",
+      "description": "Quality control, reflection, and output validation.",
+      "category": "agentic-engineering",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "path": "skills/evaluator"
+      }
+    },
+    {
+      "name": "agentic-orchestrator",
+      "description": "Planning, routing, and multi-agent coordination.",
+      "category": "agentic-engineering",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "path": "skills/orchestrator"
+      }
+    },
+    {
+      "name": "agentic-product-manager",
+      "description": "Strategy, scoping, and evaluation design.",
+      "category": "agentic-engineering",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "path": "skills/product-manager"
+      }
+    },
+    {
+      "name": "agentic-protector",
+      "description": "Security, sandboxing, and injection defense.",
+      "category": "agentic-engineering",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "path": "skills/protector"
+      }
+    },
+    {
+      "name": "agentic-researcher",
+      "description": "Data gathering via search, RAG, and APIs.",
+      "category": "agentic-engineering",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+        "path": "skills/researcher"
+      }
+    }
+  ]
+}

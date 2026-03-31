@@ -1,0 +1,7 @@
+{
+  "name": "agentic-orchestrator",
+  "version": "1.0.0",
+  "description": "Planning, routing, and multi-agent coordination patterns.",
+  "author": "galihnxs",
+  "license": "MIT"
+}

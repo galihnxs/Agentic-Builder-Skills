@@ -1,0 +1,7 @@
+{
+  "name": "agentic-researcher",
+  "version": "1.0.0",
+  "description": "Data gathering using search, RAG, and APIs for AI researchers.",
+  "author": "galihnxs",
+  "license": "MIT"
+}
