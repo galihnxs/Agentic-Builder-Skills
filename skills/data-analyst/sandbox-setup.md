@@ -1,237 +1,189 @@
 # Skill: Sandbox Setup
 
-**Role:** Data Analyst + AI Architect
+**Role:** Data Analyst (Coder)
 **Phase:** Design → Integration
-**Autonomy Level:** Low
+**Autonomy Level:** Low (infrastructure)
 **Layer:** Tool Layer (Go MCP)
 
 ---
 
 ## 📖 What is it?
 
-Sandbox Setup is the infrastructure configuration skill that establishes the isolated execution environment all code-generating agents depend on. It defines which images to maintain, which libraries to pre-bake, what filesystem boundaries to enforce, and how to manage the lifecycle (warm pool vs. on-demand) of execution containers. Without this groundwork, the [`sandboxing-defense`](../protector/sandboxing-defense.md) skill has no environment to enforce, and the [`code-execution-pattern`](./code-execution-pattern.md) has nowhere to run.
+Sandbox Setup is the infrastructure configuration skill that defines the execution environment for LLM-generated code. It specifies which Python libraries are pre-installed, what filesystem paths are accessible, what network destinations are whitelisted, and what resource limits apply. A well-configured sandbox is what makes the [`code-execution-pattern`](./code-execution-pattern.md) safe to run in production — it is the difference between "the LLM can write code" and "the LLM can write code that can't hurt us."
 
-This skill is a one-time setup per environment (dev/staging/prod) with ongoing maintenance as library requirements evolve.
+This is not a runtime pattern — it is a build-time decision made once by the Architect/Data Analyst pair and locked into the deployment configuration. Changes to the sandbox environment require a deliberate review, not a prompt edit.
 
 ---
 
 ## 💡 Why it Matters (The PM Perspective)
 
-- **Business impact:** A misconfigured sandbox is worse than no sandbox — it creates false confidence. Getting this right once means every code-executing agent in the system is protected by the same hardened environment.
-- **Cost implication:** Pre-baked Docker images with dependencies eliminate library installation at runtime (saves 30–60s per cold start, plus CDN egress costs from repeated pip installs). Warm pool for high-frequency agents reduces cold start latency by 90%.
-- **Latency implication:** Cold start from scratch: 5–15s. From pre-baked image: 1–3s. From warm pool: 100–300ms. Choose based on your SLA.
-- **When to skip this:** You are using a managed sandbox service (E2B, Modal) that handles all of this for you. In that case, this skill reduces to: configure API keys, test the integration, set timeouts.
+- **Business impact:** The sandbox environment determines what analytical capabilities the Data Analyst agent has. A sandbox with only `math` and `json` supports basic calculations. A sandbox with `pandas`, `numpy`, and `matplotlib` supports full data analysis and charting. Capability decisions are sandbox decisions.
+- **Cost implication:** Pre-installing libraries in a Docker image makes sandbox cold-start fast (~200ms) vs. installing on every run (~10–30s). The image build cost is one-time; the per-run cost is minimal. Always pre-install, never install-on-demand.
+- **Latency implication:** Warm sandbox pools (pre-started container instances) reduce cold-start latency from 2–5s to <200ms for the first execution in a session. Critical for user-facing analytical flows.
+- **When to skip this:** Never skip sandbox configuration. A code execution environment with no explicit configuration is an uncontrolled execution environment.
 
 ---
 
 ## 🛠️ How it Works (The Engineering Perspective)
 
-**Dockerfile — Python Data Analyst Sandbox:**
+**Prerequisites:**
+- Docker installed on the execution host
+- A base Python image (python:3.12-slim recommended)
+- An approved library list signed off by the Architect and Data Analyst
 
-```dockerfile
-# File: docker/analyst-sandbox/Dockerfile
-# Pre-baked sandbox image for the Data Analyst agent.
-# NO network access at runtime — all libraries must be pre-installed here.
+**Workflow:**
 
-FROM python:3.12-slim
+1. **Define the library allow-list** — List every Python library the Data Analyst agent needs. This list goes into both the Dockerfile (for installation) and the agent system prompt (as the explicit allow-list).
+2. **Build the sandbox image** — Create a Dockerfile that installs exactly the approved libraries. Pin all versions (`pandas==2.2.0`) — never use unpinned installs.
+3. **Configure resource limits** — Set memory, CPU, and timeout limits in the Docker run configuration. These are enforced at the infrastructure level, not by the LLM.
+4. **Configure filesystem access** — The sandbox has read-write access to `/workspace` only. All other paths are read-only or inaccessible.
+5. **Configure network access** — `--network none` by default. If the agent needs to call an internal API, whitelist the specific IP/hostname via a custom Docker network — never open general internet access.
+6. **Test adversarially** — Before production: attempt `rm -rf /`, `import os; os.system("env")`, `import requests; requests.get("https://attacker.com")`. All must be blocked.
+7. **Document and lock** — The sandbox configuration is a versioned artifact. Changes require a PR and security review.
 
-# Security: run as non-root user
-RUN useradd -m -u 1000 -s /bin/bash analyst
-WORKDIR /workspace
-RUN chown analyst:analyst /workspace
+**Failure modes to watch:**
+- `LibraryCreep` — Caused by: adding libraries ad hoc without updating the system prompt allow-list. Fix: the Dockerfile and the system prompt allow-list must always be in sync. Enforce via CI.
+- `UnpinnedDependencies` — Caused by: using `pip install pandas` without a version pin. A library update can silently break existing agent code. Fix: pin all versions. Update deliberately, not accidentally.
+- `WarmPoolDrift` — Caused by: warm sandbox containers using a stale image after a Dockerfile update. Fix: on image rebuild, drain the warm pool and rebuild all instances.
+- `NetworkWhitelistExpansion` — Caused by: developers adding network exceptions for convenience without security review. Fix: any network change to the sandbox requires explicit Architect + security sign-off.
 
-# Pre-install all libraries the Data Analyst may use
-# Update this list only through a PR review process
-RUN pip install --no-cache-dir \
-    pandas==2.2.0 \
-    numpy==1.26.4 \
-    scipy==1.12.0 \
-    statsmodels==0.14.1 \
-    matplotlib==3.8.3 \
-    openpyxl==3.1.2
-
-# Remove pip and package managers — no runtime installs
-RUN pip uninstall -y pip setuptools wheel
-
-# Switch to non-root
-USER analyst
-
-# Execution entrypoint — scripts are passed via stdin or /workspace/script.py
-CMD ["python3"]
-```
-
-**Docker Run Command (enforced by sandbox_execute_code tool):**
-
-```bash
-docker run \
-  --rm \                          # auto-remove after exit
-  --network none \                # no outbound network
-  --read-only \                   # immutable container filesystem
-  --tmpfs /workspace:rw,size=100m \ # writable scratch, destroyed on exit
-  --memory 512m \                 # memory cap
-  --cpus 1 \                      # CPU cap
-  --cap-drop ALL \                # drop all Linux capabilities
-  --no-new-privileges \           # prevent privilege escalation
-  --security-opt no-new-privileges:true \
-  -u 1000 \                       # run as non-root analyst user
-  analyst-sandbox:latest \
-  python3 -c "SCRIPT_CONTENT"
-```
-
-**Warm Pool Configuration (Go):**
-
-```go
-// File: internal/sandbox/pool.go
-// Pre-allocates N warm sandbox containers to eliminate cold start latency.
-// For high-frequency Data Analyst workloads (>10 executions/min).
-
-package sandbox
-
-import (
-	"context"
-	"fmt"
-	"os/exec"
-	"sync"
-)
-
-const (
-	DefaultPoolSize  = 3
-	SandboxImageName = "analyst-sandbox:latest"
-)
-
-type Pool struct {
-	mu        sync.Mutex
-	available chan string // container IDs of warm, idle containers
-	size      int
-}
-
-func NewPool(ctx context.Context, size int) (*Pool, error) {
-	p := &Pool{
-		available: make(chan string, size),
-		size:      size,
-	}
-	for i := 0; i < size; i++ {
-		id, err := spinUpContainer(ctx)
-		if err != nil {
-			return nil, fmt.Errorf("pool init failed at container %d: %w", i, err)
-		}
-		p.available <- id
-	}
-	return p, nil
-}
-
-// Acquire gets a warm container. Blocks until one is available.
-func (p *Pool) Acquire() string {
-	return <-p.available
-}
-
-// Release returns a container to the pool after resetting its workspace.
-// If reset fails, spins up a fresh container instead.
-func (p *Pool) Release(ctx context.Context, containerID string) {
-	// Reset workspace: remove any files written during execution
-	cmd := exec.CommandContext(ctx, "docker", "exec", containerID,
-		"sh", "-c", "rm -rf /workspace/* 2>/dev/null; true")
-	if err := cmd.Run(); err != nil {
-		// Reset failed — destroy and replace with fresh container
-		exec.Command("docker", "rm", "-f", containerID).Run()
-		if newID, err := spinUpContainer(ctx); err == nil {
-			p.available <- newID
-		}
-		return
-	}
-	p.available <- containerID
-}
-
-func spinUpContainer(ctx context.Context) (string, error) {
-	cmd := exec.CommandContext(ctx, "docker", "run",
-		"-d", "--network", "none", "--read-only",
-		"--tmpfs", "/workspace:rw,size=100m",
-		"--memory", "512m", "--cpus", "1",
-		"--cap-drop", "ALL", "--no-new-privileges",
-		"-u", "1000",
-		SandboxImageName,
-		"sleep", "infinity", // keep alive until Acquire/Release cycle
-	)
-	out, err := cmd.Output()
-	if err != nil {
-		return "", fmt.Errorf("docker run failed: %w", err)
-	}
-	return strings.TrimSpace(string(out)), nil
-}
-```
+**Integration touchpoints:**
+- Required by: [`code-execution-pattern`](./code-execution-pattern.md) — defines the environment where code runs
+- Required by: [`sandboxing-defense`](../protector/sandboxing-defense.md) — the security layer configures on top of this environment
+- Feeds into: [`self-healing-code`](./self-healing-code.md) — knowing the available libraries is essential for accurate error diagnosis
 
 ---
 
 ## ⚠️ Constraints & Guardrails
 
-- **Never use `--privileged`** — this flag grants root-equivalent access to the host. There is no legitimate use case for privileged execution in an AI code sandbox.
-- **Never bind-mount sensitive directories** — `/etc`, `/var`, `/home`, `/root` must never be mounted into the sandbox.
-- **Update the image via PR** — adding a new library to the sandbox Dockerfile must go through code review. The library list is a security surface.
-- **Audit the pre-installed libraries** — each library is a potential attack surface. Only install what the Data Analyst actually needs. Review quarterly.
+- **Context window:** The library allow-list in the system prompt should be ≤ 50 tokens. List names only, not versions — those are in the Dockerfile.
+- **Cost ceiling:** Docker image storage: ~500MB–2GB depending on libraries. Negligible cost on cloud infrastructure. Warm pool: 2–5 pre-started containers per production instance. Size accordingly.
+- **Model requirement:** Not applicable. Sandbox is model-agnostic.
+- **Non-determinism:** The sandbox environment is fully deterministic. All non-determinism in code execution results comes from the LLM's code generation, not the execution environment.
+- **Human gate required:** Yes — for any change to the sandbox configuration (library additions, network whitelist changes, resource limit increases). Document every change in the sandbox changelog.
 
 ---
 
-## 📦 Ready-to-Use Artifact: Sandbox Health Check
+## 📦 Ready-to-Use Artifact: Dockerfile + Docker Run Configuration
 
-```go
-// File: internal/sandbox/healthcheck.go
-// Run this before deploying to confirm the sandbox is correctly hardened.
+### Option C · Dockerfile + Run Config (Tool Layer)
 
-package sandbox
+```dockerfile
+# File: docker/sandbox/Dockerfile
+# Python sandbox for LLM-generated code execution.
+# Build: docker build -t agent-sandbox:1.0.0 -f docker/sandbox/Dockerfile .
+# NEVER add --privileged, --network host, or -v /:/host to the run command.
 
-import (
-	"context"
-	"fmt"
-	"os/exec"
-	"strings"
-	"time"
-)
+FROM python:3.12-slim
 
-type HealthCheckResult struct {
-	Test    string
-	Passed  bool
-	Details string
-}
+# Install only the approved library list. Pin ALL versions.
+# To add a library: (1) add here, (2) update system prompt allow-list, (3) PR + review.
+RUN pip install --no-cache-dir \
+    pandas==2.2.2 \
+    numpy==1.26.4 \
+    matplotlib==3.9.0 \
+    seaborn==0.13.2 \
+    scipy==1.13.0 \
+    scikit-learn==1.5.0 \
+    openpyxl==3.1.2 \
+    python-dateutil==2.9.0
 
-// RunHardening checks that the sandbox cannot escape its boundaries.
-func RunHardeningChecks(ctx context.Context) []HealthCheckResult {
-	tests := []struct {
-		name string
-		code string
-		mustFail bool // true = this code SHOULD produce an error (the sandbox is working)
-	}{
-		{"network_blocked",    "import urllib.request; urllib.request.urlopen('http://example.com')", true},
-		{"no_subprocess",      "import subprocess; subprocess.run(['ls'])", true},
-		{"no_os_system",       "import os; os.system('ls')", true},
-		{"no_root_access",     "open('/etc/passwd').read()", true},
-		{"workspace_writable", "open('/workspace/test.txt','w').write('ok')", false},
-		{"pandas_available",   "import pandas as pd; print(pd.__version__)", false},
-	}
+# Create the workspace directory — this is the ONLY writable path
+RUN mkdir /workspace && chmod 777 /workspace
 
-	results := make([]HealthCheckResult, 0, len(tests))
-	for _, t := range tests {
-		ctx2, cancel := context.WithTimeout(ctx, 10*time.Second)
-		cmd := exec.CommandContext(ctx2, "docker", "run", "--rm",
-			"--network", "none", "--read-only",
-			"--tmpfs", "/workspace:rw,size=10m",
-			"--memory", "128m", "--cpus", "0.5",
-			"--cap-drop", "ALL", "--no-new-privileges",
-			"-u", "1000",
-			SandboxImageName,
-			"python3", "-c", t.code,
-		)
-		out, err := cmd.CombinedOutput()
-		cancel()
+# Drop to non-root user for additional security
+RUN useradd -m -u 1001 sandbox
+USER sandbox
 
-		passed := (err != nil) == t.mustFail
-		results = append(results, HealthCheckResult{
-			Test:    t.name,
-			Passed:  passed,
-			Details: fmt.Sprintf("exit_err=%v output=%.100s", err, strings.TrimSpace(string(out))),
-		})
-	}
-	return results
-}
+WORKDIR /workspace
+
+# Default entrypoint — overridden per execution
+CMD ["python3"]
+```
+
+```bash
+# File: scripts/run_sandbox.sh
+# Executes one code string in the sandbox. Called by the Go MCP tool.
+# Usage: ./run_sandbox.sh "print('hello')" 30
+#
+# Security flags explained:
+#   --rm               Auto-remove container on exit — no persistent state
+#   --network none     No outbound network access
+#   --read-only        Immutable container filesystem (except /workspace tmpfs)
+#   --tmpfs /workspace Writable scratch space, destroyed on container exit
+#   --memory 512m      Memory cap — prevents memory exhaustion attacks
+#   --cpus 1           CPU cap — prevents CPU exhaustion
+#   --cap-drop ALL     Drop ALL Linux capabilities — minimum privilege
+#   --no-new-privileges Prevent privilege escalation via setuid binaries
+#   --pids-limit 64    Limit process spawning — prevents fork bombs
+
+CODE="$1"
+TIMEOUT="${2:-10}"
+
+docker run \
+  --rm \
+  --network none \
+  --read-only \
+  --tmpfs /workspace:rw,size=100m,uid=1001 \
+  --memory 512m \
+  --memory-swap 512m \
+  --cpus 1 \
+  --cap-drop ALL \
+  --no-new-privileges \
+  --pids-limit 64 \
+  --user 1001 \
+  --workdir /workspace \
+  --timeout "$TIMEOUT" \
+  agent-sandbox:1.0.0 \
+  python3 -c "$CODE"
+```
+
+```yaml
+# File: config/sandbox.yaml
+# Sandbox configuration — single source of truth.
+# Changes require PR + Architect + security review.
+
+version: "1.0.0"
+image: "agent-sandbox:1.0.0"
+
+resource_limits:
+  memory_mb: 512
+  cpu_cores: 1
+  pids_limit: 64
+  execution_timeout_secs: 30
+  output_max_chars: 2000
+  tmpfs_workspace_mb: 100
+
+network:
+  mode: "none"  # Options: none | custom_internal
+  # If custom_internal, list allowed hosts:
+  allowed_hosts: []
+
+filesystem:
+  writable_paths:
+    - "/workspace"
+  read_only: true
+
+approved_libraries:
+  - "pandas==2.2.2"
+  - "numpy==1.26.4"
+  - "matplotlib==3.9.0"
+  - "seaborn==0.13.2"
+  - "scipy==1.13.0"
+  - "scikit-learn==1.5.0"
+  - "openpyxl==3.1.2"
+  - "python-dateutil==2.9.0"
+  - "json"      # stdlib
+  - "math"      # stdlib
+  - "statistics" # stdlib
+  - "datetime"  # stdlib
+  - "re"        # stdlib
+  - "csv"       # stdlib
+
+warm_pool:
+  enabled: true
+  min_instances: 2
+  max_instances: 10
 ```
 
 ---
@@ -240,9 +192,22 @@ func RunHardeningChecks(ctx context.Context) []HealthCheckResult {
 
 | Skill | Role | Relationship |
 |---|---|---|
-| [`sandboxing-defense`](../protector/sandboxing-defense.md) | Protector | Defense uses this environment; setup makes it safe |
-| [`code-execution-pattern`](./code-execution-pattern.md) | Data Analyst | Code execution runs inside this sandbox |
-| [`mcp-integration`](../architect/mcp-integration.md) | Architect | The sandbox tool is registered as an MCP server tool |
+| [`code-execution-pattern`](./code-execution-pattern.md) | Data Analyst | The execution pattern runs inside the environment this skill configures |
+| [`sandboxing-defense`](../protector/sandboxing-defense.md) | Protector | Security layer built on top of this environment |
+| [`self-healing-code`](./self-healing-code.md) | Data Analyst | Self-healing prompts reference the approved library list from this config |
+
+---
+
+## 📊 Evaluation Checklist
+
+- [ ] Adversarial test: `rm -rf /` — blocked
+- [ ] Adversarial test: `import os; os.system("env")` — blocked (os.system in deny-list)
+- [ ] Adversarial test: `import requests; requests.get("https://evil.com")` — blocked (network=none)
+- [ ] Adversarial test: `while True: pass` — killed within 30s timeout
+- [ ] Adversarial test: `[x for x in range(10**9)]` — killed within memory limit
+- [ ] Library version pins verified — no floating versions in Dockerfile
+- [ ] Warm pool tested — cold-start <200ms on pre-warmed instances
+- [ ] Config file versioned and change history in git log
 
 ---
 
@@ -250,9 +215,9 @@ func RunHardeningChecks(ctx context.Context) []HealthCheckResult {
 
 | Version | Date | Change |
 |---|---|---|
-| v1.0.0 | 2026-03-31 | Initial skill page |
+| v1.0.0 | 2026-03-31 | Initial skill page — Python 3.12-slim base |
 
 ---
 
-*Source: Grounded in Andrew Ng's Agentic AI course — "The 'rm -rf' Problem" and "Docker/E2B sandboxing" sections.*
+*Source: Andrew Ng's Agentic AI course — "The 'rm -rf' Problem: Security & Sandboxing" and "Docker / E2B" sections.*
 *Template version: v1.0.0*

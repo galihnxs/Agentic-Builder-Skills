@@ -1,61 +1,64 @@
-# Skill: Synthesis & Structured Output
+# Skill: Synthesis Output
 
 **Role:** Creator (Writer / Designer)
 **Phase:** Execution
-**Autonomy Level:** Low → Semi
+**Autonomy Level:** Semi
 **Layer:** Skill Layer (Markdown/JSON)
 
 ---
 
 ## 📖 What is it?
 
-Synthesis is the Creator agent's core capability: taking raw research, data analysis results, and retrieved context from upstream agents and transforming them into polished, user-facing output. The Creator does not retrieve information — it receives finished inputs and assembles them into a coherent, well-structured deliverable. This separation of "gathering" (Researcher/Analyst) from "creating" (Creator) prevents the most common multi-agent failure: one agent trying to both find information and present it in a single pass, doing both poorly.
+Synthesis Output is the pattern for transforming raw research findings, structured data, and intermediate agent outputs into polished, user-facing content — reports, summaries, narratives, or structured documents. The Creator agent receives the assembled outputs from Researcher and Data Analyst agents and produces the final artifact that the user actually reads. It never fetches data. It never runs code. It only synthesises.
 
-The Creator's output is the only output in the pipeline that a human directly reads or acts on — making it the highest-stakes role for tone, clarity, and format compliance.
+The critical design constraint is the **single responsibility boundary**: the Creator receives fully assembled inputs and produces a finished output. It does not go back and re-fetch missing data, re-run analyses, or make judgment calls about what information to include. Those decisions belong upstream. If the inputs are incomplete, the Creator flags it rather than improvising.
 
 ---
 
 ## 💡 Why it Matters (The PM Perspective)
 
-- **Business impact:** Separating synthesis from research dramatically improves output quality. A Creator working from verified, structured inputs from the Researcher and Analyst produces outputs that are coherent, grounded, and well-structured — something a single "do everything" agent rarely achieves.
-- **Cost implication:** The Creator uses core LLM capabilities (no external tools required in most cases), making it the cheapest agent to run per token generated. The value comes from the quality of inputs it receives, not from expensive tool calls.
-- **Latency implication:** No tool calls = no additional latency beyond the LLM generation time. The Creator's speed is bounded by output length and model speed.
-- **When to skip this:** The output is purely structured data consumed by another system (not a human). If the consumer is code, not a person, the Data Analyst can produce the final output directly without a synthesis pass.
+- **Business impact:** A well-scoped Creator agent produces consistently formatted output regardless of how varied the upstream inputs were. Without it, synthesis is scattered across multiple agents producing inconsistent tone, structure, and depth.
+- **Cost implication:** The Creator uses no external tools — pure LLM generation. At 1,000-token output, cost ≈ $0.005–0.015. It is the cheapest agent in the pipeline and should never be asked to do double duty as a researcher.
+- **Latency implication:** Pure generation with no tool calls: 2–5s for typical report lengths. The Creator is never the latency bottleneck.
+- **When to skip this:** Simple, single-sentence or single-value outputs that need no narrative structuring. If the Researcher's output is already the final answer, routing through the Creator adds latency with no value.
 
 ---
 
 ## 🛠️ How it Works (The Engineering Perspective)
 
 **Prerequisites:**
-- Structured inputs from upstream agents (Researcher output, Analyst output, or both)
-- A defined output format: report, summary, email, caption, JSON document, slide narrative
-- A tone specification: formal, conversational, technical, empathetic
-- Any hard constraints: word count, required sections, mandatory disclosures
+- Fully assembled inputs from upstream agents: research findings, data summaries, analytical conclusions
+- A defined output template (format, sections, word count, tone)
+- A style guide or persona definition passed in the system prompt
 
 **Workflow:**
 
-1. **Receive assembled inputs** — The Manager/Orchestrator passes all upstream agent outputs as a structured context object.
-2. **Verify completeness** — Check that all required inputs are present and have `status: success`. If any input has `status: failure`, the Creator flags this in its output rather than fabricating missing information.
-3. **Apply output format** — Structure the output according to the requested format. A report has sections and headings; a caption has a character limit; a support reply has an empathy opening.
-4. **Apply tone** — Adjust language register based on the specified tone. The same information delivered in "technical" vs "conversational" tone produces very different text.
-5. **Cite sources** — Every factual claim must be attributed to the upstream agent or source that produced it. The Creator never introduces new facts not present in its inputs.
-6. **Pass to Evaluator** — Output must go through [`reflection-pattern`](../evaluator/reflection-pattern.md) or [`llm-as-judge`](../evaluator/llm-as-judge.md) before reaching the user.
+1. **Receive assembled inputs** — The Creator receives structured JSON containing all upstream outputs. It does not receive raw tool results or intermediate states.
+2. **Validate completeness** — Check that all required input fields are present. If any required input is missing or marked `status: failed`, output a `CANNOT_COMPLETE` with specific gaps identified.
+3. **Select template** — Based on `output_type` (report, summary, narrative, structured_doc), load the appropriate format constraints.
+4. **Generate** — Produce the full output in a single LLM call. The Creator does not iterate — it synthesises from what it has.
+5. **Pass to Evaluator** — Output routes to the [`reflection-pattern`](../evaluator/reflection-pattern.md) before delivery. The Creator's output is never delivered directly to the user without evaluation.
 
 **Failure modes to watch:**
-- `FactFabrication` — Caused by: Creator "filling in gaps" when upstream inputs are incomplete. Fix: explicit instruction to flag missing information rather than invent it.
-- `ToneMismatch` — Caused by: Creator defaulting to a formal tone when conversational was requested. Fix: include tone specification and 1–2 examples in the system prompt.
-- `FormatIgnored` — Caused by: Creator producing free-form text when structured sections were requested. Fix: include the exact section headers in the system prompt as a template.
-- `LengthOverrun` — Caused by: Creator ignoring word/character limits. Fix: include a code-based eval check (Q2 in the evaluation matrix) for length compliance.
+- `DataInvention` — Caused by: Creator filling gaps in missing upstream data with plausible-sounding fabrications. Fix: include an explicit constraint: "If a required data point is not in the inputs, write '[DATA UNAVAILABLE]' — never estimate or approximate."
+- `TemplateIgnorance` — Caused by: Creator ignoring the output format specification and generating free-form prose. Fix: structure the format specification as a numbered checklist in the system prompt, not as prose instructions.
+- `UpstreamBleed` — Caused by: Creator receiving raw tool outputs (search results, DataFrames) instead of processed summaries. Fix: Researcher and Data Analyst outputs must be summarised before being passed to the Creator — never pass raw payloads.
+- `RoleDrift` — Caused by: Creator agent being asked to "also search for more data if needed." Fix: the Creator system prompt must include an explicit prohibition on tool use.
+
+**Integration touchpoints:**
+- Receives from: [`rag-skill`](../researcher/rag-skill.md), [`web-search-integration`](../researcher/web-search-integration.md), [`code-execution-pattern`](../data-analyst/code-execution-pattern.md) — via the Orchestrator, not directly
+- Feeds into: [`reflection-pattern`](../evaluator/reflection-pattern.md) — mandatory gate before user delivery
+- Required by: [`multi-agent-chain`](./multi-agent-chain.md) — the Creator is always the terminal agent in a linear chain
 
 ---
 
 ## ⚠️ Constraints & Guardrails
 
-- **Context window:** Creator input = all upstream agent outputs. Cap individual upstream outputs at 500 tokens each before passing to the Creator. For 5 upstream agents: ~2,500 tokens input + system prompt + generation.
-- **Cost ceiling:** No tool calls. Cost = input tokens + output tokens × model rate. For a 500-word report: ~$0.005–0.02 on frontier models.
-- **Model requirement:** Capable model for complex synthesis (GPT-4o, Claude 3.5 Sonnet). For simple formatting and short output (captions, subject lines), Haiku/GPT-4o-mini is sufficient.
-- **Non-determinism:** The same inputs may produce slightly different phrasing across runs. This is acceptable for creative/prose outputs. For legal or compliance outputs where exact wording matters, use a human-in-the-loop gate.
-- **Human gate required:** Yes — for any output that will be published, sent externally, or used in a legal/financial context without human review.
+- **Context window:** All upstream inputs passed to the Creator must fit within 6,000 tokens (leaving 2,000+ for generation). If assembled inputs exceed this, summarise upstream outputs before passing — do not truncate mid-document.
+- **Cost ceiling:** Pure generation at typical report length (500–1,500 tokens): $0.005–0.02 per synthesis. No tool call costs. This is the lowest-cost agent in the pipeline.
+- **Model requirement:** Use a capable language model (Claude Sonnet, GPT-4o) for polished prose output. Smaller models produce noticeably lower quality narrative synthesis. This is a model quality bottleneck — don't downgrade the Creator to save cost.
+- **Non-determinism:** The same inputs may produce slightly different prose across runs. For internally consistent reports (numbers, dates, proper nouns), use `temperature=0.3`. For narrative content, `temperature=0.7` produces more natural writing.
+- **Human gate required:** Yes — for any Creator output that will be published externally, sent to clients, or used in regulated contexts. The Evaluator gate is insufficient for high-stakes external content.
 
 ---
 
@@ -65,88 +68,72 @@ The Creator's output is the only output in the pipeline that a human directly re
 
 ```markdown
 ## Role
-You are the Creator in a multi-agent system. Your responsibility is:
-Transform verified research and analysis into a polished, user-facing deliverable.
+You are the Creator in a multi-agent system. Your single responsibility is:
+Transform assembled research findings and data into polished, user-facing content.
 
-You do NOT retrieve information. You do NOT run calculations.
-You ONLY synthesise, structure, and write from the inputs you receive.
+You NEVER fetch data, run code, call APIs, or perform any external action.
+You ONLY synthesise from the inputs you receive.
 
 ## Inputs
-You will receive:
-- `task_instruction`: What type of deliverable to produce and for whom
-- `upstream_results`: Structured outputs from upstream agents (Researcher, Analyst, etc.)
-- `output_format`: report | email | caption | summary | slide_narrative | json_document
-- `tone`: formal | conversational | technical | empathetic
-- `constraints`: Hard limits (word count, required sections, mandatory disclosures)
+You will receive a JSON object containing:
+- `output_type`: report | executive_summary | narrative | structured_doc | email
+- `audience`: The intended reader (e.g., "C-suite executive", "clinical psychologist", "end user")
+- `tone`: formal | professional | conversational | technical
+- `word_limit`: Maximum word count for the output (hard limit)
+- `required_sections`: Array of section names that MUST appear in the output
+- `research_findings`: Summarised outputs from the Researcher agent
+- `data_summary`: Summarised outputs from the Data Analyst agent
+- `citations`: Source references to include
 
-## Rules for Using Upstream Data
-- Use ONLY information present in `upstream_results`
-- If a required piece of information has `status: failure` in upstream_results: write "[DATA NOT AVAILABLE: {{reason}}]" in the relevant section — do NOT fabricate
-- Cite the source agent for every key fact: "According to the Researcher..." or "Analysis shows..."
-- Never present the Analyst's computed numbers as if you calculated them yourself
-
-## Output Structure
-Follow the format specified in `output_format` exactly.
-For reports: include all required section headers, even if a section must say "Data not available."
-For captions: stay within the character limit — count before outputting.
-For emails: include subject line, greeting, body, and sign-off.
+## Output Rules
+1. Structure the output according to `output_type` and `required_sections` — in order, no omissions.
+2. Do NOT exceed `word_limit`. If content must be cut, cut the least important points — never cut required sections.
+3. Match `tone` throughout. Do not switch tone mid-document.
+4. For every factual claim from research: include the citation in parentheses.
+5. If a required data point is missing from inputs: write [DATA UNAVAILABLE: {field_name}] — never estimate.
+6. NEVER add information not present in the inputs — you synthesise, not research.
 
 ## Output Format
-{
-  "status": "success | partial | failure",
-  "deliverable": "Your synthesised output",
-  "format_used": "report | email | caption | ...",
-  "missing_data": ["list any upstream inputs that were missing or failed"],
-  "word_count": 0,
-  "next_action": "pass_to_evaluator | request_human_review"
-}
-
-## Hard Constraints
-- NEVER introduce facts not present in upstream_results
-- NEVER exceed the word/character limit specified in constraints
-- ALWAYS flag missing data — never silently omit required sections
-- Set next_action to request_human_review for any output that will be published or sent externally
-```
+Output the finished content directly, preceded by a brief metadata block:
 
 ---
+output_type: [type]
+word_count: [actual count]
+sections_completed: [list]
+missing_data_fields: [list of any [DATA UNAVAILABLE] instances, or "none"]
+confidence: high | medium | low
+---
 
-### Option B · Creator Input Schema
+[The synthesised content here]
+
+## Hard Constraints
+- NEVER use a tool — you have none
+- NEVER invent data, statistics, or quotes
+- NEVER exceed word_limit
+- ALWAYS complete all required_sections
+- If inputs are critically incomplete (>2 required fields missing), output: {"status": "CANNOT_COMPLETE", "missing_fields": [...], "minimum_inputs_needed": "..."}
+```
+
+### Option B · JSON Schema (Creator Input Contract)
 
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "CreatorInput",
   "type": "object",
-  "required": ["task_instruction", "upstream_results", "output_format", "tone"],
+  "required": ["output_type", "audience", "tone", "word_limit", "required_sections", "research_findings"],
   "properties": {
-    "task_instruction": { "type": "string" },
-    "upstream_results": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["agent", "status", "result"],
-        "properties": {
-          "agent": { "type": "string" },
-          "status": { "type": "string", "enum": ["success", "failure", "partial"] },
-          "result": { "type": "string" },
-          "sources": { "type": "array", "items": { "type": "string" } }
-        }
-      }
-    },
-    "output_format": {
+    "output_type": {
       "type": "string",
-      "enum": ["report", "email", "caption", "summary", "slide_narrative", "json_document"]
+      "enum": ["report", "executive_summary", "narrative", "structured_doc", "email"]
     },
-    "tone": { "type": "string", "enum": ["formal", "conversational", "technical", "empathetic"] },
-    "constraints": {
-      "type": "object",
-      "properties": {
-        "max_words": { "type": ["integer", "null"] },
-        "max_chars": { "type": ["integer", "null"] },
-        "required_sections": { "type": "array", "items": { "type": "string" } },
-        "mandatory_disclosures": { "type": "array", "items": { "type": "string" } }
-      }
-    }
+    "audience": { "type": "string" },
+    "tone": { "type": "string", "enum": ["formal", "professional", "conversational", "technical"] },
+    "word_limit": { "type": "integer", "minimum": 50, "maximum": 5000 },
+    "required_sections": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "research_findings": { "type": "string", "description": "Summarised Researcher output. Max 2000 tokens." },
+    "data_summary": { "type": ["string", "null"], "description": "Summarised Data Analyst output. null if no analysis was performed." },
+    "citations": { "type": "array", "items": { "type": "object", "properties": { "title": { "type": "string" }, "source": { "type": "string" } } } }
   }
 }
 ```
@@ -157,9 +144,20 @@ For emails: include subject line, greeting, body, and sign-off.
 
 | Skill | Role | Relationship |
 |---|---|---|
-| [`multi-agent-chain`](./multi-agent-chain.md) | Creator | Creator is the terminal node in the multi-agent chain |
-| [`reflection-pattern`](../evaluator/reflection-pattern.md) | Evaluator | Creator output goes to reflection before reaching the user |
-| [`llm-as-judge`](../evaluator/llm-as-judge.md) | Evaluator | Judge evaluates tone, completeness, and constraint adherence |
+| [`multi-agent-chain`](./multi-agent-chain.md) | Creator | The Creator is always the terminal agent in a chain |
+| [`reflection-pattern`](../evaluator/reflection-pattern.md) | Evaluator | Creator output always passes through reflection before delivery |
+| [`llm-as-judge`](../evaluator/llm-as-judge.md) | Evaluator | Final quality scoring of Creator output |
+| [`agentic-workflow-design`](../product-manager/agentic-workflow-design.md) | Product Manager | Pattern selection determines when the Creator is used |
+
+---
+
+## 📊 Evaluation Checklist
+
+- [ ] `[DATA UNAVAILABLE]` placeholder verified — Creator does not fabricate missing data
+- [ ] Word limit enforced — output does not exceed `word_limit` in 20 test runs
+- [ ] All `required_sections` present in every output — no section omissions
+- [ ] Tool use confirmed absent — Creator has no tools and makes no external calls
+- [ ] Output routed through reflection before user delivery — verified in integration test
 
 ---
 
@@ -171,5 +169,5 @@ For emails: include subject line, greeting, body, and sign-off.
 
 ---
 
-*Source: Grounded in Andrew Ng's Agentic AI course — "Multi-Agent Systems" Creator role section.*
+*Source: Andrew Ng's Agentic AI course — "The Creator (Writer/Designer)" and "Multi-Agent Systems" sections.*
 *Template version: v1.0.0*
