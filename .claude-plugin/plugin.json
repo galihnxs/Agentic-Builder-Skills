@@ -1,0 +1,205 @@
+{
+  "name": "agentic-skills-library",
+  "displayName": "Agentic Skills Library",
+  "version": "1.0.0",
+  "description": "31 battle-tested agentic patterns: Architect, PM, Evaluator, Orchestrator, Researcher, Data Analyst, Creator, Compliance, Protector",
+  "author": "galihnxs",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/galihnxs/Agentic-Builder-Skills.git"
+  },
+  "keywords": [
+    "agentic",
+    "ai",
+    "patterns",
+    "skills",
+    "multi-agent",
+    "claude",
+    "architect",
+    "product-manager",
+    "evaluator"
+  ],
+  "skills": [
+    {
+      "name": "skill-based-architecture",
+      "path": "skills/architect/skill-based-architecture/CLAUDE_SKILL.md",
+      "role": "architect",
+      "tags": ["architecture", "design", "routing"]
+    },
+    {
+      "name": "mcp-integration",
+      "path": "skills/architect/mcp-integration/CLAUDE_SKILL.md",
+      "role": "architect",
+      "tags": ["mcp", "tools", "integration"]
+    },
+    {
+      "name": "state-observability",
+      "path": "skills/architect/state-observability/CLAUDE_SKILL.md",
+      "role": "architect",
+      "tags": ["observability", "state", "tracing"]
+    },
+    {
+      "name": "tool-orchestration",
+      "path": "skills/architect/tool-orchestration/CLAUDE_SKILL.md",
+      "role": "architect",
+      "tags": ["orchestration", "tools", "dispatch"]
+    },
+    {
+      "name": "governance-as-code",
+      "path": "skills/compliance/governance-as-code/CLAUDE_SKILL.md",
+      "role": "compliance",
+      "tags": ["governance", "compliance", "policy"]
+    },
+    {
+      "name": "human-in-the-loop",
+      "path": "skills/compliance/human-in-the-loop/CLAUDE_SKILL.md",
+      "role": "compliance",
+      "tags": ["human-oversight", "review", "approval"]
+    },
+    {
+      "name": "regional-legal-check",
+      "path": "skills/compliance/regional-legal-check/CLAUDE_SKILL.md",
+      "role": "compliance",
+      "tags": ["legal", "regional", "compliance"]
+    },
+    {
+      "name": "multi-agent-chain",
+      "path": "skills/creator/multi-agent-chain/CLAUDE_SKILL.md",
+      "role": "creator",
+      "tags": ["multi-agent", "chain", "workflow"]
+    },
+    {
+      "name": "synthesis-output",
+      "path": "skills/creator/synthesis-output/CLAUDE_SKILL.md",
+      "role": "creator",
+      "tags": ["synthesis", "output", "generation"]
+    },
+    {
+      "name": "code-execution-pattern",
+      "path": "skills/data-analyst/code-execution-pattern/CLAUDE_SKILL.md",
+      "role": "data-analyst",
+      "tags": ["code-execution", "sandbox", "data"]
+    },
+    {
+      "name": "sandbox-setup",
+      "path": "skills/data-analyst/sandbox-setup/CLAUDE_SKILL.md",
+      "role": "data-analyst",
+      "tags": ["sandbox", "isolation", "security"]
+    },
+    {
+      "name": "self-healing-code",
+      "path": "skills/data-analyst/self-healing-code/CLAUDE_SKILL.md",
+      "role": "data-analyst",
+      "tags": ["self-healing", "auto-fix", "code-generation"]
+    },
+    {
+      "name": "component-evaluation",
+      "path": "skills/evaluator/component-evaluation/CLAUDE_SKILL.md",
+      "role": "evaluator",
+      "tags": ["evaluation", "metrics", "quality"]
+    },
+    {
+      "name": "llm-as-judge",
+      "path": "skills/evaluator/llm-as-judge/CLAUDE_SKILL.md",
+      "role": "evaluator",
+      "tags": ["evaluation", "llm-judge", "scoring"]
+    },
+    {
+      "name": "reflection-pattern",
+      "path": "skills/evaluator/reflection-pattern/CLAUDE_SKILL.md",
+      "role": "evaluator",
+      "tags": ["reflection", "critique", "improvement"]
+    },
+    {
+      "name": "json-xml-output",
+      "path": "skills/orchestrator/json-xml-output/CLAUDE_SKILL.md",
+      "role": "orchestrator",
+      "tags": ["output", "structured", "schemas"]
+    },
+    {
+      "name": "multi-agent-coordination",
+      "path": "skills/orchestrator/multi-agent-coordination/CLAUDE_SKILL.md",
+      "role": "orchestrator",
+      "tags": ["coordination", "multi-agent", "sync"]
+    },
+    {
+      "name": "planning-pattern",
+      "path": "skills/orchestrator/planning-pattern/CLAUDE_SKILL.md",
+      "role": "orchestrator",
+      "tags": ["planning", "decomposition", "goals"]
+    },
+    {
+      "name": "task-decomposition",
+      "path": "skills/orchestrator/task-decomposition/CLAUDE_SKILL.md",
+      "role": "orchestrator",
+      "tags": ["decomposition", "tasks", "breakdown"]
+    },
+    {
+      "name": "agentic-workflow-design",
+      "path": "skills/product-manager/agentic-workflow-design/CLAUDE_SKILL.md",
+      "role": "product-manager",
+      "tags": ["workflow", "design", "product"]
+    },
+    {
+      "name": "cost-latency-tradeoffs",
+      "path": "skills/product-manager/cost-latency-tradeoffs/CLAUDE_SKILL.md",
+      "role": "product-manager",
+      "tags": ["cost", "latency", "optimization"]
+    },
+    {
+      "name": "eval-driven-development",
+      "path": "skills/product-manager/eval-driven-development/CLAUDE_SKILL.md",
+      "role": "product-manager",
+      "tags": ["evaluation", "development", "testing"]
+    },
+    {
+      "name": "evaluation-matrix",
+      "path": "skills/product-manager/evaluation-matrix/CLAUDE_SKILL.md",
+      "role": "product-manager",
+      "tags": ["evaluation", "metrics", "matrix"]
+    },
+    {
+      "name": "feasibility-framework",
+      "path": "skills/product-manager/feasibility-framework/CLAUDE_SKILL.md",
+      "role": "product-manager",
+      "tags": ["feasibility", "framework", "assessment"]
+    },
+    {
+      "name": "injection-defense",
+      "path": "skills/protector/injection-defense/CLAUDE_SKILL.md",
+      "role": "protector",
+      "tags": ["security", "injection", "defense"]
+    },
+    {
+      "name": "non-determinism-handling",
+      "path": "skills/protector/non-determinism-handling/CLAUDE_SKILL.md",
+      "role": "protector",
+      "tags": ["reliability", "determinism", "safety"]
+    },
+    {
+      "name": "sandboxing-defense",
+      "path": "skills/protector/sandboxing-defense/CLAUDE_SKILL.md",
+      "role": "protector",
+      "tags": ["sandbox", "security", "containment"]
+    },
+    {
+      "name": "rag-skill",
+      "path": "skills/researcher/rag-skill/CLAUDE_SKILL.md",
+      "role": "researcher",
+      "tags": ["rag", "retrieval", "knowledge"]
+    },
+    {
+      "name": "react-pattern",
+      "path": "skills/researcher/react-pattern/CLAUDE_SKILL.md",
+      "role": "researcher",
+      "tags": ["react", "reasoning", "acting"]
+    },
+    {
+      "name": "web-search-integration",
+      "path": "skills/researcher/web-search-integration/CLAUDE_SKILL.md",
+      "role": "researcher",
+      "tags": ["web-search", "integration", "research"]
+    }
+  ]
+}
