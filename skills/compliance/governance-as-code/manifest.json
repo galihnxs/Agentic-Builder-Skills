@@ -1,0 +1,12 @@
+{
+  "skill_name": "governance-as-code",
+  "version": "v1.0.0",
+  "role": "compliance",
+  "title": "Governance as Code",
+  "description": "Governance as Code is the practice of encoding an organisation's compliance rules, operational policies, and legal constraints as machine-readable, version-controlled configuration — rather than as human-readable policy documents that agents ignore at runtime. By 2026, with 40%+ of enterprise applications embedding AI agents, \"Policy-as-Code\" has become mandatory to ensure agents operate within organisational compliance and security boundaries.",
+  "when_to_use": "Use this skill for governance as code tasks.",
+  "deprecated": false,
+  "phase": "Design → Integration",
+  "autonomy_level": "Low",
+  "layer": "Skill Layer"
+}

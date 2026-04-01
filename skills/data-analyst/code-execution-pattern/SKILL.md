@@ -1,5 +1,6 @@
 ---
 name: code-execution-pattern
+role: data-analyst
 description: The Code Execution Pattern is the "Swiss Army Knife" approach to agent tooling.
 ---
 # Action

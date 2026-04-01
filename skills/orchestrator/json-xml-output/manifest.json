@@ -1,0 +1,12 @@
+{
+  "skill_name": "json-xml-output",
+  "version": "v1.0.0",
+  "role": "orchestrator",
+  "title": "JSON & XML Structured Output",
+  "description": "Structured output enforcement is the practice of constraining an LLM's response to a machine-readable format — JSON or XML — so that downstream code can parse and act on it without brittle text extraction. When an agent says \"I'll check the price,\" the calling code has no idea whether that maps to `get_price(item=\"sunglasses\")` or `lookup_cost(id=123)`. A structured output contract eliminates this ambiguity by creating a typed, predictable interface between the LLM's reasoning and the system's execution layer.",
+  "when_to_use": "Use this skill for json & xml structured output tasks.",
+  "deprecated": false,
+  "phase": "Orchestration",
+  "autonomy_level": "Low → Semi",
+  "layer": "Skill Layer"
+}

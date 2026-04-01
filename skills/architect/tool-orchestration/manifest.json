@@ -1,0 +1,12 @@
+{
+  "skill_name": "tool-orchestration",
+  "version": "v1.0.0",
+  "role": "architect",
+  "title": "Tool Orchestration",
+  "description": "Tool Orchestration is the \"glue\" that prevents agentic systems from becoming fragmented, unmanageable codebases. It is the layer between the LLM's intent and the tools that act on the world — responsible for dispatching tool calls, managing execution order (sequential vs parallel), propagating results between steps, and enforcing cost and turn limits.",
+  "when_to_use": "Use this skill for tool orchestration tasks.",
+  "deprecated": false,
+  "phase": "Integration",
+  "autonomy_level": "Low",
+  "layer": "Tool Layer"
+}

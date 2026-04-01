@@ -1,0 +1,12 @@
+{
+  "skill_name": "task-decomposition",
+  "version": "v1.0.0",
+  "role": "orchestrator",
+  "title": "Task Decomposition",
+  "description": "\"Validates a task decomposition: checks block count ≤ 8, tool names exist, dependency graph has no cycles, and returns parallel execution groups.\",",
+  "when_to_use": "Use this skill for task decomposition tasks.",
+  "deprecated": false,
+  "phase": "Design → Orchestration",
+  "autonomy_level": "Low → Semi",
+  "layer": "Skill Layer"
+}

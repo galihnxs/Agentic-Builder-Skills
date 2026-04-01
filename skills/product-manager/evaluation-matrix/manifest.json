@@ -1,0 +1,12 @@
+{
+  "skill_name": "evaluation-matrix",
+  "version": "v1.0.0",
+  "role": "product-manager",
+  "title": "Evaluation Matrix",
+  "description": "The Evaluation Matrix is the decision framework that maps every agent output type to the correct evaluation method based on two axes: (1) whether a per-example ground truth exists, and (2) whether the evaluation criteria are objective or subjective. It is not a tool — it is a forcing function that prevents the most common evaluation mistake in agentic systems: using the wrong type of eval for a given task and either over-engineering (expensive LLM-as-Judge for a task checkable with regex) or under-engineering (regex for a task requiring semantic understanding).",
+  "when_to_use": "Use this skill for evaluation matrix tasks.",
+  "deprecated": false,
+  "phase": "Quality Control → Design",
+  "autonomy_level": "Low",
+  "layer": "Skill Layer"
+}

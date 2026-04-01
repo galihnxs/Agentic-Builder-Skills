@@ -1,0 +1,12 @@
+{
+  "skill_name": "react-pattern",
+  "version": "v1.0.0",
+  "role": "researcher",
+  "title": "ReAct Pattern (Reason + Act)",
+  "description": "\"Executes one Action step in a ReAct loop. Validates tool existence, checks side-effect approval, calls the tool, and returns a lean Observation.\",",
+  "when_to_use": "Use this skill for react pattern (reason + act) tasks.",
+  "deprecated": false,
+  "phase": "Execution",
+  "autonomy_level": "Semi → High",
+  "layer": "Skill Layer"
+}

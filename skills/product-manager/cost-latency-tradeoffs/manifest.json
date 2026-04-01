@@ -1,0 +1,12 @@
+{
+  "skill_name": "cost-latency-tradeoffs",
+  "version": "v1.0.0",
+  "role": "product-manager",
+  "title": "Cost & Latency Tradeoffs",
+  "description": "Cost & Latency Tradeoffs is the PM's analytical framework for making explicit, documented decisions about where to spend engineering budget on optimisation — and where not to. In production agentic systems, a correct answer delivered too slowly is a failure. An efficient answer that costs $1.00 per query at 100K daily users is a $100K/day infrastructure bill. Both are product failures.",
+  "when_to_use": "Use this skill for cost & latency tradeoffs tasks.",
+  "deprecated": false,
+  "phase": "Design → Post-Mortem",
+  "autonomy_level": "Low",
+  "layer": "Skill Layer"
+}

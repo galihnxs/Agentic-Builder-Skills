@@ -1,0 +1,12 @@
+{
+  "skill_name": "web-search-integration",
+  "version": "v1.0.0",
+  "role": "researcher",
+  "title": "Web Search Integration",
+  "description": "\"Search the public web for current information. Use for: recent events, live data, public facts post-dating training cutoff. Prefer rag_query for private/internal knowledge.\",",
+  "when_to_use": "Use this skill for web search integration tasks.",
+  "deprecated": false,
+  "phase": "Execution",
+  "autonomy_level": "Semi",
+  "layer": "Tool Layer"
+}

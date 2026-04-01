@@ -1,0 +1,12 @@
+{
+  "skill_name": "planning-pattern",
+  "version": "v1.0.0",
+  "role": "orchestrator",
+  "title": "Planning Pattern",
+  "description": "\"Validates an Orchestrator plan before execution: checks tool names exist, step count ≤ 10, and flags side-effect steps requiring human approval.\",",
+  "when_to_use": "Use this skill for planning pattern tasks.",
+  "deprecated": false,
+  "phase": "Orchestration",
+  "autonomy_level": "Semi → High",
+  "layer": "Skill Layer"
+}

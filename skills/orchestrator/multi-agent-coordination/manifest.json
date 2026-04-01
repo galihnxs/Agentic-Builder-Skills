@@ -1,0 +1,12 @@
+{
+  "skill_name": "multi-agent-coordination",
+  "version": "v1.0.0",
+  "role": "orchestrator",
+  "title": "Multi-Agent Coordination",
+  "description": "Multi-Agent Coordination is the architectural pattern for distributing a complex task across multiple specialised agents — each with a focused persona, a dedicated toolset, and a bounded scope of responsibility. Instead of asking one LLM to research, analyse, write, and review all in a single context window, a Manager Agent sits at the centre: it receives the user's goal, delegates sub-tasks to specialist agents, and synthesises the results.",
+  "when_to_use": "Use this skill for multi-agent coordination tasks.",
+  "deprecated": false,
+  "phase": "Orchestration",
+  "autonomy_level": "Semi → High",
+  "layer": "Skill Layer"
+}

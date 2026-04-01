@@ -1,0 +1,12 @@
+{
+  "skill_name": "synthesis-output",
+  "version": "v1.0.0",
+  "role": "creator",
+  "title": "Synthesis Output",
+  "description": "Synthesis Output is the pattern for transforming raw research findings, structured data, and intermediate agent outputs into polished, user-facing content — reports, summaries, narratives, or structured documents. The Creator agent receives the assembled outputs from Researcher and Data Analyst agents and produces the final artifact that the user actually reads. It never fetches data. It never runs code. It only synthesises.",
+  "when_to_use": "Use this skill for synthesis output tasks.",
+  "deprecated": false,
+  "phase": "Execution",
+  "autonomy_level": "Semi",
+  "layer": "Skill Layer"
+}

@@ -1,0 +1,9 @@
+{
+  "skill_name": "code-execution-pattern",
+  "version": "v1.0.0",
+  "role": "data-analyst",
+  "title": "Action",
+  "description": "The Code Execution Pattern is the \"Swiss Army Knife\" approach to agent tooling.",
+  "when_to_use": "Use this skill for action tasks.",
+  "deprecated": false
+}

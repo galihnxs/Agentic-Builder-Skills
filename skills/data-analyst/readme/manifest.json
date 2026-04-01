@@ -1,0 +1,12 @@
+{
+  "skill_name": "readme",
+  "version": "v1.0.0",
+  "role": "data-analyst",
+  "title": "Code Execution Pattern",
+  "description": "The Code Execution Pattern is the \"Swiss Army Knife\" approach to agent tooling: instead of building dozens of brittle, hard-coded tools for every possible math operation or data transformation, you give the LLM access to a single `execute_code` tool backed by a Python interpreter. The LLM writes the exact code needed to solve the problem, the system executes it in a sandbox, and the result flows back as an Observation.",
+  "when_to_use": "Use this skill for code execution pattern tasks.",
+  "deprecated": false,
+  "phase": "Execution",
+  "autonomy_level": "Semi → High",
+  "layer": "Tool Layer (Go MCP) + Skill Layer"
+}

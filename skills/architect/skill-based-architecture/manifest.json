@@ -1,0 +1,12 @@
+{
+  "skill_name": "skill-based-architecture",
+  "version": "v1.0.0",
+  "role": "architect",
+  "title": "Skill-Based Architecture",
+  "description": "Skill-Based Architecture is the system design pattern that replaces a single monolithic agent prompt with a registry of modular, independently deployable \"skills\" — each with a specific manifest, a bounded responsibility, and a well-defined input/output contract. The LLM acts as the \"brain\" (planning and routing), while the orchestrator handles deterministic dispatch to the appropriate skill.",
+  "when_to_use": "Use this skill for skill-based architecture tasks.",
+  "deprecated": false,
+  "phase": "Design",
+  "autonomy_level": "Low",
+  "layer": "Skill Layer"
+}

@@ -1,0 +1,12 @@
+{
+  "skill_name": "mcp-integration",
+  "version": "v1.0.0",
+  "role": "architect",
+  "title": "MCP Integration",
+  "description": "\"Replace this with your real tool. One sentence: what it does and when to call it.\",",
+  "when_to_use": "Use this skill for mcp integration tasks.",
+  "deprecated": false,
+  "phase": "Integration",
+  "autonomy_level": "Low",
+  "layer": "Tool Layer"
+}

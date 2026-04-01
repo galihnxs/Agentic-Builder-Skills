@@ -1,0 +1,12 @@
+{
+  "skill_name": "rag-skill",
+  "version": "v1.0.0",
+  "role": "researcher",
+  "title": "RAG Skill (Retrieval-Augmented Generation)",
+  "description": "\"Retrieves the most semantically relevant chunks from the private knowledge base for a given query. Use when the question requires domain-specific or internal knowledge not available via web search.\",",
+  "when_to_use": "Use this skill for rag skill (retrieval-augmented generation) tasks.",
+  "deprecated": false,
+  "phase": "Execution",
+  "autonomy_level": "Low → Semi",
+  "layer": "Tool Layer (Go MCP) + Skill Layer"
+}

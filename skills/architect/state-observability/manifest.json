@@ -1,0 +1,12 @@
+{
+  "skill_name": "state-observability",
+  "version": "v1.0.0",
+  "role": "architect",
+  "title": "State & Observability",
+  "description": "State & Observability is the infrastructure pattern that transforms an agentic system from a black box into a transparent, debuggable execution graph. It covers two things: **State Management** (how shared context is stored and passed between agents and tools across a session) and **Tracing** (how every LLM call, tool invocation, and routing decision is recorded as a structured span for inspection and debugging).",
+  "when_to_use": "Use this skill for state & observability tasks.",
+  "deprecated": false,
+  "phase": "Integration → Post-Mortem",
+  "autonomy_level": "Low",
+  "layer": "Tool Layer"
+}

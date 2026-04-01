@@ -1,0 +1,12 @@
+{
+  "skill_name": "eval-driven-development",
+  "version": "v1.0.0",
+  "role": "product-manager",
+  "title": "Eval-Driven Development",
+  "description": "Eval-Driven Development (EDD) is the discipline of using structured measurements to guide every code change in an agentic system. Instead of shipping a prompt change and hoping the output \"feels better,\" EDD makes the process rigorous: curate a dataset of representative inputs with expected outputs, run the current agent against it, measure specific metrics, change one variable, re-run, compare. Every improvement is verified against a consistent benchmark.",
+  "when_to_use": "Use this skill for eval-driven development tasks.",
+  "deprecated": false,
+  "phase": "Design → Quality Control",
+  "autonomy_level": "Low",
+  "layer": "Skill Layer"
+}

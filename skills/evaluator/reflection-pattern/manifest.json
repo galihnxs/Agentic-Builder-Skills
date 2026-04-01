@@ -1,0 +1,12 @@
+{
+  "skill_name": "reflection-pattern",
+  "version": "v1.0.0",
+  "role": "evaluator",
+  "title": "Reflection Pattern",
+  "description": "The Reflection Pattern is the process of prompting an LLM to read its own initial output, identify specific flaws, and produce an improved version — before that output ever reaches the user or the next agent in the pipeline. It transforms every agent from a single-pass generator into a self-correcting loop: Generate → Critique → Revise.",
+  "when_to_use": "Use this skill for reflection pattern tasks.",
+  "deprecated": false,
+  "phase": "Quality Control",
+  "autonomy_level": "Semi",
+  "layer": "Skill Layer"
+}

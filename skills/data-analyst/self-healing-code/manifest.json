@@ -1,0 +1,12 @@
+{
+  "skill_name": "self-healing-code",
+  "version": "v1.0.0",
+  "role": "data-analyst",
+  "title": "Self-Healing Code",
+  "description": "Self-Healing Code is the error recovery loop for code-executing agents: when the sandbox returns an error, the agent does not give up — it receives the exact error message, diagnoses the specific cause, and generates a corrected version. This is a specialised application of the [`reflection-pattern`](../evaluator/reflection-pattern.md) where the external feedback signal is binary and precise: the code either ran or it didn't, and the error message tells you exactly what went wrong.",
+  "when_to_use": "Use this skill for self-healing code tasks.",
+  "deprecated": false,
+  "phase": "Quality Control",
+  "autonomy_level": "Semi",
+  "layer": "Skill Layer"
+}

@@ -1,0 +1,12 @@
+{
+  "skill_name": "human-in-the-loop",
+  "version": "v1.0.0",
+  "role": "compliance",
+  "title": "Human-in-the-Loop (HITL)",
+  "description": "{{action_description}}",
+  "when_to_use": "Use this skill for human-in-the-loop (hitl) tasks.",
+  "deprecated": false,
+  "phase": "Integration → Quality Control",
+  "autonomy_level": "Low",
+  "layer": "Skill Layer"
+}

@@ -1,0 +1,12 @@
+{
+  "skill_name": "feasibility-framework",
+  "version": "v1.0.0",
+  "role": "product-manager",
+  "title": "Feasibility Framework",
+  "description": "The Feasibility Framework is the PM's decision tool for determining whether a proposed agentic feature should be built as a low-autonomy workflow, a semi-autonomous agent, or a highly autonomous system — and whether to build it at all. It maps task characteristics (predictability, data format, SOP availability, user input variance) onto a spectrum from \"easy to build and reliable\" to \"hard to build and experimental.\"",
+  "when_to_use": "Use this skill for feasibility framework tasks.",
+  "deprecated": false,
+  "phase": "Design",
+  "autonomy_level": "Low",
+  "layer": "Skill Layer"
+}

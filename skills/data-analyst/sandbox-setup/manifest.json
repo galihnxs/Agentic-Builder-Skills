@@ -1,0 +1,12 @@
+{
+  "skill_name": "sandbox-setup",
+  "version": "v1.0.0",
+  "role": "data-analyst",
+  "title": "Sandbox Setup",
+  "description": "Sandbox Setup is the infrastructure configuration skill that defines the execution environment for LLM-generated code. It specifies which Python libraries are pre-installed, what filesystem paths are accessible, what network destinations are whitelisted, and what resource limits apply. A well-configured sandbox is what makes the [`code-execution-pattern`](./code-execution-pattern.md) safe to run in production — it is the difference between \"the LLM can write code\" and \"the LLM can write code that can't hurt us.\"",
+  "when_to_use": "Use this skill for sandbox setup tasks.",
+  "deprecated": false,
+  "phase": "Design → Integration",
+  "autonomy_level": "Low",
+  "layer": "Tool Layer"
+}

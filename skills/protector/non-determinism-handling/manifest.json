@@ -1,0 +1,12 @@
+{
+  "skill_name": "non-determinism-handling",
+  "version": "v1.0.0",
+  "role": "protector",
+  "title": "Non-Determinism Handling",
+  "description": "Non-Determinism Handling is the engineering discipline of designing agentic systems to be robust against the fundamental property of LLMs: the same input does not always produce the same output. Unlike traditional software (deterministic) where unit tests produce identical results, LLM agents can have multiple execution paths for the same query — and improving agents relies on data, not on fixing a single deterministic bug.",
+  "when_to_use": "Use this skill for non-determinism handling tasks.",
+  "deprecated": false,
+  "phase": "Design → Quality Control",
+  "autonomy_level": "Low",
+  "layer": "Skill Layer"
+}

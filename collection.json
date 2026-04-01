@@ -1,0 +1,227 @@
+{
+  "name": "agentic-skills-library",
+  "version": "1.0.0",
+  "description": "The complete library of agentic roles and patterns (Architect, PM, Evaluator, etc).",
+  "repository": "https://github.com/galihnxs/Agentic-Builder-Skills.git",
+  "last_updated": "2026-04-01T03:53:15.419Z",
+  "total_skills": 31,
+  "skills": [
+    {
+      "skill_name": "mcp-integration",
+      "role": "architect",
+      "title": "MCP Integration",
+      "version": "v1.0.0",
+      "path": "skills/architect/mcp-integration/manifest.json"
+    },
+    {
+      "skill_name": "skill-based-architecture",
+      "role": "architect",
+      "title": "Skill-Based Architecture",
+      "version": "v1.0.0",
+      "path": "skills/architect/skill-based-architecture/manifest.json"
+    },
+    {
+      "skill_name": "state-observability",
+      "role": "architect",
+      "title": "State & Observability",
+      "version": "v1.0.0",
+      "path": "skills/architect/state-observability/manifest.json"
+    },
+    {
+      "skill_name": "tool-orchestration",
+      "role": "architect",
+      "title": "Tool Orchestration",
+      "version": "v1.0.0",
+      "path": "skills/architect/tool-orchestration/manifest.json"
+    },
+    {
+      "skill_name": "governance-as-code",
+      "role": "compliance",
+      "title": "Governance as Code",
+      "version": "v1.0.0",
+      "path": "skills/compliance/governance-as-code/manifest.json"
+    },
+    {
+      "skill_name": "human-in-the-loop",
+      "role": "compliance",
+      "title": "Human-in-the-Loop (HITL)",
+      "version": "v1.0.0",
+      "path": "skills/compliance/human-in-the-loop/manifest.json"
+    },
+    {
+      "skill_name": "regional-legal-check",
+      "role": "compliance",
+      "title": "Regional Legal Check",
+      "version": "v1.0.0",
+      "path": "skills/compliance/regional-legal-check/manifest.json"
+    },
+    {
+      "skill_name": "multi-agent-chain",
+      "role": "creator",
+      "title": "Multi-Agent Chain",
+      "version": "v1.0.0",
+      "path": "skills/creator/multi-agent-chain/manifest.json"
+    },
+    {
+      "skill_name": "synthesis-output",
+      "role": "creator",
+      "title": "Synthesis Output",
+      "version": "v1.0.0",
+      "path": "skills/creator/synthesis-output/manifest.json"
+    },
+    {
+      "skill_name": "code-execution-pattern",
+      "role": "data-analyst",
+      "title": "Action",
+      "version": "v1.0.0",
+      "path": "skills/data-analyst/code-execution-pattern/manifest.json"
+    },
+    {
+      "skill_name": "readme",
+      "role": "data-analyst",
+      "title": "Code Execution Pattern",
+      "version": "v1.0.0",
+      "path": "skills/data-analyst/readme/manifest.json"
+    },
+    {
+      "skill_name": "sandbox-setup",
+      "role": "data-analyst",
+      "title": "Sandbox Setup",
+      "version": "v1.0.0",
+      "path": "skills/data-analyst/sandbox-setup/manifest.json"
+    },
+    {
+      "skill_name": "self-healing-code",
+      "role": "data-analyst",
+      "title": "Self-Healing Code",
+      "version": "v1.0.0",
+      "path": "skills/data-analyst/self-healing-code/manifest.json"
+    },
+    {
+      "skill_name": "component-evaluation",
+      "role": "evaluator",
+      "title": "Component Evaluation",
+      "version": "v1.0.0",
+      "path": "skills/evaluator/component-evaluation/manifest.json"
+    },
+    {
+      "skill_name": "llm-as-judge",
+      "role": "evaluator",
+      "title": "LLM-as-Judge",
+      "version": "v1.0.0",
+      "path": "skills/evaluator/llm-as-judge/manifest.json"
+    },
+    {
+      "skill_name": "reflection-pattern",
+      "role": "evaluator",
+      "title": "Reflection Pattern",
+      "version": "v1.0.0",
+      "path": "skills/evaluator/reflection-pattern/manifest.json"
+    },
+    {
+      "skill_name": "json-xml-output",
+      "role": "orchestrator",
+      "title": "JSON & XML Structured Output",
+      "version": "v1.0.0",
+      "path": "skills/orchestrator/json-xml-output/manifest.json"
+    },
+    {
+      "skill_name": "multi-agent-coordination",
+      "role": "orchestrator",
+      "title": "Multi-Agent Coordination",
+      "version": "v1.0.0",
+      "path": "skills/orchestrator/multi-agent-coordination/manifest.json"
+    },
+    {
+      "skill_name": "planning-pattern",
+      "role": "orchestrator",
+      "title": "Planning Pattern",
+      "version": "v1.0.0",
+      "path": "skills/orchestrator/planning-pattern/manifest.json"
+    },
+    {
+      "skill_name": "task-decomposition",
+      "role": "orchestrator",
+      "title": "Task Decomposition",
+      "version": "v1.0.0",
+      "path": "skills/orchestrator/task-decomposition/manifest.json"
+    },
+    {
+      "skill_name": "agentic-workflow-design",
+      "role": "product-manager",
+      "title": "Agentic Workflow Design",
+      "version": "v1.0.0",
+      "path": "skills/product-manager/agentic-workflow-design/manifest.json"
+    },
+    {
+      "skill_name": "cost-latency-tradeoffs",
+      "role": "product-manager",
+      "title": "Cost & Latency Tradeoffs",
+      "version": "v1.0.0",
+      "path": "skills/product-manager/cost-latency-tradeoffs/manifest.json"
+    },
+    {
+      "skill_name": "eval-driven-development",
+      "role": "product-manager",
+      "title": "Eval-Driven Development",
+      "version": "v1.0.0",
+      "path": "skills/product-manager/eval-driven-development/manifest.json"
+    },
+    {
+      "skill_name": "evaluation-matrix",
+      "role": "product-manager",
+      "title": "Evaluation Matrix",
+      "version": "v1.0.0",
+      "path": "skills/product-manager/evaluation-matrix/manifest.json"
+    },
+    {
+      "skill_name": "feasibility-framework",
+      "role": "product-manager",
+      "title": "Feasibility Framework",
+      "version": "v1.0.0",
+      "path": "skills/product-manager/feasibility-framework/manifest.json"
+    },
+    {
+      "skill_name": "injection-defense",
+      "role": "protector",
+      "title": "Injection Defense",
+      "version": "v1.0.0",
+      "path": "skills/protector/injection-defense/manifest.json"
+    },
+    {
+      "skill_name": "non-determinism-handling",
+      "role": "protector",
+      "title": "Non-Determinism Handling",
+      "version": "v1.0.0",
+      "path": "skills/protector/non-determinism-handling/manifest.json"
+    },
+    {
+      "skill_name": "sandboxing-defense",
+      "role": "protector",
+      "title": "Sandboxing Defense",
+      "version": "v1.0.0",
+      "path": "skills/protector/sandboxing-defense/manifest.json"
+    },
+    {
+      "skill_name": "rag-skill",
+      "role": "researcher",
+      "title": "RAG Skill (Retrieval-Augmented Generation)",
+      "version": "v1.0.0",
+      "path": "skills/researcher/rag-skill/manifest.json"
+    },
+    {
+      "skill_name": "react-pattern",
+      "role": "researcher",
+      "title": "ReAct Pattern (Reason + Act)",
+      "version": "v1.0.0",
+      "path": "skills/researcher/react-pattern/manifest.json"
+    },
+    {
+      "skill_name": "web-search-integration",
+      "role": "researcher",
+      "title": "Web Search Integration",
+      "version": "v1.0.0",
+      "path": "skills/researcher/web-search-integration/manifest.json"
+    }
+  ]
+}

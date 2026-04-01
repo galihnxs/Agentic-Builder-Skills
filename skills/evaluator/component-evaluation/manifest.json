@@ -1,0 +1,12 @@
+{
+  "skill_name": "component-evaluation",
+  "version": "v1.0.0",
+  "role": "evaluator",
+  "title": "Component Evaluation",
+  "description": "Component Evaluation is the practice of isolating and testing a single agent or pipeline step in a controlled sandbox before testing the full end-to-end system. Instead of running the complete 6-step pipeline to check if the Researcher's web search is returning relevant results, you extract just the Researcher component, feed it 20 fixed test queries, and measure its output quality in isolation. This provides a clean, fast, low-noise signal that end-to-end testing cannot give you.",
+  "when_to_use": "Use this skill for component evaluation tasks.",
+  "deprecated": false,
+  "phase": "Quality Control",
+  "autonomy_level": "Low",
+  "layer": "Skill Layer"
+}

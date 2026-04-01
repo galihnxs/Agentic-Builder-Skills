@@ -1,0 +1,12 @@
+{
+  "skill_name": "regional-legal-check",
+  "version": "v1.0.0",
+  "role": "compliance",
+  "title": "Regional Legal Check",
+  "description": "Regional Legal Check is the advisory and gate pattern that evaluates an agentic system's design against the legal and regulatory requirements of the jurisdiction where it will be deployed and where its data subjects reside. It surfaces legal constraints that must be encoded into the governance policy before the system handles real user data — covering data protection law, AI-specific regulation, sector-specific rules, and cross-border data transfer requirements.",
+  "when_to_use": "Use this skill for regional legal check tasks.",
+  "deprecated": false,
+  "phase": "Design",
+  "autonomy_level": "Low",
+  "layer": "Skill Layer"
+}

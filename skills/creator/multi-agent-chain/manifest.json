@@ -1,0 +1,12 @@
+{
+  "skill_name": "multi-agent-chain",
+  "version": "v1.0.0",
+  "role": "creator",
+  "title": "Multi-Agent Chain",
+  "description": "Takes a topic query, researches it via web search and RAG, then produces a structured report.",
+  "when_to_use": "Use this skill for multi-agent chain tasks.",
+  "deprecated": false,
+  "phase": "Orchestration → Execution",
+  "autonomy_level": "Semi",
+  "layer": "Skill Layer"
+}

@@ -1,0 +1,12 @@
+{
+  "skill_name": "agentic-workflow-design",
+  "version": "v1.0.0",
+  "role": "product-manager",
+  "title": "Agentic Workflow Design",
+  "description": "Agentic Workflow Design is the process of choosing the right architecture pattern for a specific task — before any code is written. It maps a user's goal to one of four foundational patterns: a **Linear Chain** (relay race), a **Manager-Led Orchestration** (hub and spoke), a **Parallel Fan-Out** (concurrent independent tasks), or a **ReAct Loop** (single agent with tool access). The wrong pattern for a task creates unnecessary complexity; the right pattern makes the system maintainable and scalable.",
+  "when_to_use": "Use this skill for agentic workflow design tasks.",
+  "deprecated": false,
+  "phase": "Design",
+  "autonomy_level": "Semi",
+  "layer": "Skill Layer"
+}

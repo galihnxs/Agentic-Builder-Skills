@@ -1,0 +1,12 @@
+{
+  "skill_name": "sandboxing-defense",
+  "version": "v1.0.0",
+  "role": "protector",
+  "title": "Sandboxing Defense",
+  "description": "\"Executes code in an isolated Docker sandbox with strict resource limits. All CODE_EXECUTION agent actions must route through this tool. Never call this without first passing the code through the Protector agent review.\",",
+  "when_to_use": "Use this skill for sandboxing defense tasks.",
+  "deprecated": false,
+  "phase": "Safety",
+  "autonomy_level": "Low",
+  "layer": "Tool Layer (Go MCP) + Skill Layer"
+}

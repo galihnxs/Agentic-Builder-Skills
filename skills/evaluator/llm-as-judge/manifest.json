@@ -1,0 +1,12 @@
+{
+  "skill_name": "llm-as-judge",
+  "version": "v1.0.0",
+  "role": "evaluator",
+  "title": "LLM-as-Judge",
+  "description": "LLM-as-Judge is the pattern of using a high-capability language model to evaluate the quality of another model's output on subjective criteria — tone, relevance, coherence, accuracy — that cannot be checked with a regex or schema validator. The Judge reads the output against a grading rubric, produces a discrete label (never a numeric score), and provides a one-sentence justification for its decision. It is the second tier of the Evaluation Trinity: more powerful than code-based checks, less authoritative than human annotation.",
+  "when_to_use": "Use this skill for llm-as-judge tasks.",
+  "deprecated": false,
+  "phase": "Quality Control",
+  "autonomy_level": "Low",
+  "layer": "Skill Layer"
+}
